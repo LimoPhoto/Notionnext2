@@ -4,7 +4,7 @@ import PostItemCard from './PostItemCard'
 const Swiper = ({ posts }) => {
   const [currentIndex, setCurrentIndex] = useState(0) // 当前卡片索引
   const containerRef = useRef(null) // 滚动容器引用
-  const [isLandscape, setIsLandscape] = useState(window.innerWidth > window.innerHeight) // 是否为横屏状态
+  const [isLandscape, setIsLandscape] = useState(window.innerWidth < window.innerHeight) // 是否为横屏状态
 
   // 监听窗口大小变化，用于检测横屏/竖屏状态
   useEffect(() => {
