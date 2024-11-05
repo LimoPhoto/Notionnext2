@@ -4,63 +4,58 @@ import PostItemCard from './PostItemCard'
 const Swiper = ({ posts }) => {
   const [currentIndex, setCurrentIndex] = useState(0) // 当前卡片索引
   const containerRef = useRef(null) // 滚动容器引用
-  const [isLandscape, setIsLandscape] = useState(window.innerWidth > window.innerHeight) // 判断是否为横屏
+  const [isLandscape, setIsLandscape] = useState(window.innerWidth > window.innerHeight) // 是否为横屏状态
 
   // 监听窗口大小变化，用于检测横屏/竖屏状态
   useEffect(() => {
     const handleResize = () => {
-      setIsLandscape(window.innerWidth > window.innerHeight) // 更新屏幕方向状态
+      setIsLandscape(window.innerWidth > window.innerHeight)
     }
-
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   // 拖拽相关引用变量
-  const touchStartPos = useRef({ x: 0, y: 0 }) // 记录拖拽的起始位置
+  const touchStartPos = useRef(0) // 记录触摸的起始X位置
+  const touchEndPos = useRef(0) // 记录触摸的结束X位置
   const isDragging = useRef(false) // 是否处于拖拽状态
-  const scrollStartLeft = useRef(0) // 记录拖拽开始时的滚动位置
 
   // 处理拖拽开始
   const handleDragStart = e => {
-    // 禁用横屏设备的鼠标拖拽功能
+    // 如果为横屏设备且为鼠标事件则禁用拖拽
     if (isLandscape && !e.touches) return
-    const x = e.touches ? e.touches[0].clientX : e.clientX // 获取X坐标
-    touchStartPos.current = { x }
+    const x = e.touches ? e.touches[0].clientX : e.clientX
+    touchStartPos.current = x
     isDragging.current = true
-    scrollStartLeft.current = containerRef.current.scrollLeft
-    containerRef.current.style.cursor = 'grabbing'
   }
 
   // 处理拖拽移动
   const handleDragMove = e => {
     if (!isDragging.current) return
     const x = e.touches ? e.touches[0].clientX : e.clientX
-    const deltaX = touchStartPos.current.x - x
-    containerRef.current.scrollLeft = scrollStartLeft.current + deltaX
+    touchEndPos.current = x
   }
 
   // 处理拖拽结束
   const handleDragEnd = () => {
     if (!isDragging.current) return
     isDragging.current = false
-    containerRef.current.style.cursor = 'grab'
+    const deltaX = touchStartPos.current - touchEndPos.current
 
-    // 计算最近的卡片索引
-    const container = containerRef.current
-    const cardWidth = container.offsetWidth // 卡片的宽度
-    const scrollLeft = container.scrollLeft // 当前滚动位置
-    const newIndex = Math.round(scrollLeft / cardWidth) // 计算最近的索引
-    setCurrentIndex(newIndex)
-    scrollToCard(newIndex) // 滚动到最近的卡片
+    // 判断拖拽方向并滑动
+    if (deltaX > 50) {
+      handleNext()
+    } else if (deltaX < -50) {
+      handlePrev()
+    }
   }
 
   // 滚动到指定索引的卡片
   const scrollToCard = index => {
     const container = containerRef.current
     if (!container) return
-    const cardWidth = container.offsetWidth // 取容器的宽度，即单个卡片宽度
-    const scrollPosition = index * cardWidth // 计算目标卡片的起始位置
+    const cardWidth = container.offsetWidth
+    const scrollPosition = index * cardWidth
     container.scrollTo({
       left: scrollPosition,
       behavior: 'smooth',
@@ -83,7 +78,7 @@ const Swiper = ({ posts }) => {
 
   return (
     <div className='relative w-full mx-auto px-12 my-8'>
-      {/* 左侧箭头按钮（竖屏时隐藏） */}
+      {/* 左侧箭头按钮，竖屏时隐藏 */}
       {!isLandscape && (
         <div
           className='absolute inset-y-0 left-4 z-10 cursor-pointer flex items-center justify-center'
@@ -92,7 +87,7 @@ const Swiper = ({ posts }) => {
         </div>
       )}
 
-      {/* 右侧箭头按钮（竖屏时隐藏） */}
+      {/* 右侧箭头按钮，竖屏时隐藏 */}
       {!isLandscape && (
         <div
           className='absolute inset-y-0 right-4 z-10 cursor-pointer flex items-center justify-center'
@@ -116,8 +111,8 @@ const Swiper = ({ posts }) => {
       >
         <div className='flex transition-transform' style={{ width: '100%' }}>
           {posts.map((item, index) => (
-            <div key={index} className='w-full flex-shrink-0'> {/* 设置宽度为100% */}
-              <PostItemCard post={item} /> {/* 渲染每个卡片 */}
+            <div key={index} className='w-full flex-shrink-0'>
+              <PostItemCard post={item} />
             </div>
           ))}
         </div>
