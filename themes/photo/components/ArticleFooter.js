@@ -49,9 +49,9 @@ export default function ArticleFooter(props) {
       </div>
 
       {/* 发布日期信息 */}
-      {/* 将发布日期移至文章底部并设置样式 */}
+      {/* 将发布日期移至页面右侧，靠近文章主体，并添加下划线 */}
       <div
-        className='text-center mt-6'
+        className='text-right mt-6 mr-4 border-b border-gray-400'
         style={{
           fontSize: '12px', // 设置字体大小为 12px
           fontWeight: '300', // 设置字体粗细为细体
