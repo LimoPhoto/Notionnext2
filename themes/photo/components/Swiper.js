@@ -23,8 +23,8 @@ const Swiper = ({ posts }) => {
 
   // 处理拖拽开始
   const handleDragStart = e => {
-    // 禁用横屏设备的拖拽功能
-    if (isLandscape) return
+    // 禁用横屏设备的鼠标拖拽功能
+    if (isLandscape && !e.touches) return
     const x = e.touches ? e.touches[0].clientX : e.clientX // 获取X坐标
     touchStartPos.current = { x }
     isDragging.current = true
