@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import LazyImage from '@/components/LazyImage' // 引入懒加载图片组件，用于优化图片加载
 import { useGlobal } from '@/lib/global' // 引入全局状态钩子，用于访问站点的全局信息
 import { useRouter } from 'next/router' // 引入Next.js的useRouter钩子用于页面导航
@@ -11,16 +10,6 @@ const PostItemCard = ({ post }) => {
   const { siteInfo } = useGlobal() // 使用useGlobal钩子获取站点信息
   const cover = post?.pageCoverThumbnail || siteInfo?.pageCover // 如果文章没有封面图，使用站点默认封面图
   const router = useRouter() // 使用useRouter钩子获取Next.js的路由功能
-  const [isPortrait, setIsPortrait] = useState(window.innerWidth < window.innerHeight) // 检查是否为竖屏状态
-
-  // 监听窗口大小变化，用于动态判断竖屏/横屏状态
-  useEffect(() => {
-    const handleResize = () => {
-      setIsPortrait(window.innerWidth < window.innerHeight)
-    }
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
 
   // 定义点击封面图片跳转的函数
   const handleClick = () => {
@@ -28,7 +17,7 @@ const PostItemCard = ({ post }) => {
   }
 
   return (
-    <div key={post.id} className={`mb-6 ${isPortrait ? 'px-4' : 'px-12'} max-w-screen-3xl`}>
+    <div key={post.id} className='mb-6 max-w-screen-3xl'>
       {/* 外层卡片容器，设置底部边距和最大宽度 */}
       <div className='flex flex-col space-y-3 relative'>
         {/* 封面图片区域，添加点击事件以跳转文章详情页 */}
