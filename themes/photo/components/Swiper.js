@@ -53,24 +53,24 @@ const Swiper = ({ posts }) => {
     <div className='relative w-full mx-auto px-12 my-8'>
       {/* 左侧箭头按钮 */}
       <div
-        className='absolute inset-y-0 left-4 z-10 cursor-pointer flex items-center justify-center w-10 h-10 bg-gray-700 bg-opacity-70 rounded-full hover:bg-opacity-90 transition duration-200'
+        className='absolute inset-y-0 left-4 z-10 cursor-pointer flex items-center justify-center'
         onClick={() =>
           handleIndicatorClick(
             currentIndex === 0 ? posts.length - 1 : currentIndex - 1
           )
         }>
-        <span className='text-white text-xl'>&#10094;</span> {/* 左箭头 */}
+        <span className='text-3xl text-gray-700 hover:text-gray-900'>&#10094;</span> {/* 左箭头 */}
       </div>
 
       {/* 右侧箭头按钮 */}
       <div
-        className='absolute inset-y-0 right-4 z-10 cursor-pointer flex items-center justify-center w-10 h-10 bg-gray-700 bg-opacity-70 rounded-full hover:bg-opacity-90 transition duration-200'
+        className='absolute inset-y-0 right-4 z-10 cursor-pointer flex items-center justify-center'
         onClick={() =>
           handleIndicatorClick(
             currentIndex === posts.length - 1 ? 0 : currentIndex + 1
           )
         }>
-        <span className='text-white text-xl'>&#10095;</span> {/* 右箭头 */}
+        <span className='text-3xl text-gray-700 hover:text-gray-900'>&#10095;</span> {/* 右箭头 */}
       </div>
 
       {/* 滑动区域 */}
@@ -92,20 +92,6 @@ const Swiper = ({ posts }) => {
             </div>
           ))}
         </div>
-      </div>
-
-      {/* 指示器 */}
-      <div className='absolute bottom-0 left-0 right-0 flex justify-center space-x-2'>
-        {posts.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => handleIndicatorClick(index)}
-            className={`w-3 h-3 rounded-full ${
-              currentIndex === index
-                ? 'bg-black dark:bg-white'
-                : 'bg-gray-300 dark:bg-gray-700'
-            }`}></button>
-        ))}
       </div>
     </div>
   )
