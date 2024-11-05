@@ -9,7 +9,7 @@ const Swiper = ({ posts }) => {
   // 监听窗口大小变化，用于检测横屏/竖屏状态
   useEffect(() => {
     const handleResize = () => {
-      setIsLandscape(window.innerWidth > window.innerHeight)
+      setIsLandscape(window.innerWidth < window.innerHeight)
     }
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
