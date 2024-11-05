@@ -37,8 +37,8 @@ const Swiper = ({ posts }) => {
   const scrollToCard = index => {
     const container = containerRef.current
     if (!container) return
-    const cardWidth = container.offsetWidth * 0.75 // 取卡片宽度的 75%
-    const scrollPosition = index * cardWidth - (container.offsetWidth - cardWidth) / 2 // 居中计算
+    const cardWidth = container.offsetWidth // 取容器的宽度，即单个卡片宽度
+    const scrollPosition = index * cardWidth // 计算目标卡片的起始位置
     container.scrollTo({
       left: scrollPosition,
       behavior: 'smooth',
@@ -88,9 +88,9 @@ const Swiper = ({ posts }) => {
         onMouseLeave={handleDragEnd}
         style={{ WebkitOverflowScrolling: 'touch' }}
       >
-        <div className='flex gap-x-4 transition-transform'>
+        <div className='flex transition-transform' style={{ width: '100%' }}>
           {posts.map((item, index) => (
-            <div key={index} className='w-3/4 flex-shrink-0'>
+            <div key={index} className='w-full flex-shrink-0'> {/* 设置宽度为100% */}
               <PostItemCard post={item} /> {/* 渲染每个卡片 */}
             </div>
           ))}
