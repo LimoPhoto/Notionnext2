@@ -4,7 +4,7 @@ import { useRouter } from 'next/router' // 引入Next.js的useRouter钩子用于
 
 /**
  * 普通的博客卡片组件
- * 仅带封面图
+ * 仅带封面图，保持比例和居中显示
  */
 const PostItemCard = ({ post }) => {
   const { siteInfo } = useGlobal() // 使用useGlobal钩子获取站点信息
@@ -22,14 +22,13 @@ const PostItemCard = ({ post }) => {
       <div className='flex flex-col space-y-3 relative'>
         {/* 封面图片区域，添加点击事件以跳转文章详情页 */}
         <div
-          className='w-full overflow-hidden mb-2 cursor-pointer' // 使用cursor-pointer以显示点击效果
+          className='flex items-center justify-center w-full h-[400px] overflow-hidden mb-2 cursor-pointer' // 设置flex布局居中，限制高度为400px
           onClick={handleClick} // 点击封面图片跳转到文章详情页
         >
           <LazyImage
             alt={post?.title} // 设置图片的alt属性为文章标题
             src={cover} // 图片来源：封面图或默认封面图
-            style={cover ? {} : { height: '0px' }} // 如果没有封面图，设置图片高度为0
-            className='w-full h-auto md:h-[300px] lg:h-[400px] object-cover select-none' // 响应式设置：全宽，自动高度，保持图片比例
+            className='w-full h-full object-contain select-none' // 使用object-contain保持图片比例和完整显示，禁用选择
           />
         </div>
       </div>
