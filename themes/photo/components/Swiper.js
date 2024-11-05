@@ -2,17 +2,17 @@ import { useRef, useState } from 'react'
 import PostItemCard from './PostItemCard'
 
 const Swiper = ({ posts }) => {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const containerRef = useRef(null)
+  const [currentIndex, setCurrentIndex] = useState(0) // 当前卡片索引
+  const containerRef = useRef(null) // 滚动容器引用
 
   // 拖拽相关引用变量
-  const touchStartPos = useRef({ x: 0, y: 0 })
-  const isDragging = useRef(false)
-  const scrollStartLeft = useRef(0)
+  const touchStartPos = useRef({ x: 0, y: 0 }) // 记录拖拽的起始位置
+  const isDragging = useRef(false) // 是否处于拖拽状态
+  const scrollStartLeft = useRef(0) // 记录拖拽开始时的滚动位置
 
   // 处理拖拽开始
   const handleDragStart = e => {
-    const x = e.touches ? e.touches[0].clientX : e.clientX
+    const x = e.touches ? e.touches[0].clientX : e.clientX // 获取X坐标
     touchStartPos.current = { x }
     isDragging.current = true
     scrollStartLeft.current = containerRef.current.scrollLeft
@@ -31,6 +31,14 @@ const Swiper = ({ posts }) => {
   const handleDragEnd = () => {
     isDragging.current = false
     containerRef.current.style.cursor = 'grab'
+
+    // 计算最近的卡片索引
+    const container = containerRef.current
+    const cardWidth = container.offsetWidth // 卡片的宽度
+    const scrollLeft = container.scrollLeft // 当前滚动位置
+    const newIndex = Math.round(scrollLeft / cardWidth) // 计算最近的索引
+    setCurrentIndex(newIndex)
+    scrollToCard(newIndex) // 滚动到最近的卡片
   }
 
   // 滚动到指定索引的卡片
