@@ -56,20 +56,26 @@ const Swiper = ({ posts }) => {
 
   return (
     <div className='relative w-full mx-auto px-12 my-8'>
-      {/* 左侧箭头 */}
+      {/* 左侧箭头按钮 */}
       <div
-        className='absolute inset-y-0 left-0 z-10 cursor-pointer flex items-center justify-center text-3xl'
-        onClick={handlePrev}
-      >
-        &#9664; {/* 左箭头符号 */}
+        className='absolute inset-y-0 left-4 z-10 cursor-pointer flex items-center justify-center'
+        onClick={() =>
+          handleIndicatorClick(
+            currentIndex === 0 ? posts.length - 1 : currentIndex - 1
+          )
+        }>
+        <span className='text-3xl text-gray-700 hover:text-gray-900'>&#10094;</span> {/* 左箭头 */}
       </div>
 
-      {/* 右侧箭头 */}
+      {/* 右侧箭头按钮 */}
       <div
-        className='absolute inset-y-0 right-0 z-10 cursor-pointer flex items-center justify-center text-3xl'
-        onClick={handleNext}
-      >
-        &#9654; {/* 右箭头符号 */}
+        className='absolute inset-y-0 right-4 z-10 cursor-pointer flex items-center justify-center'
+        onClick={() =>
+          handleIndicatorClick(
+            currentIndex === posts.length - 1 ? 0 : currentIndex + 1
+          )
+        }>
+        <span className='text-3xl text-gray-700 hover:text-gray-900'>&#10095;</span> {/* 右箭头 */}
       </div>
 
       {/* 滑动区域 */}
