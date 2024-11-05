@@ -1,31 +1,98 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useState } from 'react'
 import PostItemCard from './PostItemCard'
 
+// Swiper组件，接收包含多个post对象的数组
 const Swiper = ({ posts }) => {
+  // 状态管理当前显示的卡片索引
+  const [currentIndex, setCurrentIndex] = useState(0)
+  // 引用容器元素，用于直接访问DOM节点
   const containerRef = useRef(null)
 
-  useEffect(() => {
-    // 自动轮播功能
-    const interval = setInterval(() => {
-      if (containerRef.current) {
-        const cardWidth = containerRef.current.scrollWidth / posts.length
-        containerRef.current.scrollLeft += cardWidth
-        if (containerRef.current.scrollLeft >= containerRef.current.scrollWidth - cardWidth) {
-          containerRef.current.scrollLeft = 0 // 循环轮播
-        }
-      }
-    }, 3000) // 3秒间隔
+  // 存储拖拽开始时的位置和滚动位置
+  const touchStartPos = useRef({ x: 0, y: 0 })
+  const isDragging = useRef(false)
+  const scrollStartLeft = useRef(0) // 记录拖拽开始时的滚动位置
 
-    // 清除定时器以防止内存泄漏
-    return () => clearInterval(interval)
-  }, [posts.length])
+  // 处理鼠标和触摸开始事件
+  const handleDragStart = e => {
+    const x = e.touches ? e.touches[0].clientX : e.clientX // 获取触摸或鼠标的X位置
+    touchStartPos.current = { x } // 记录开始时的X位置
+    isDragging.current = true // 标记为正在拖拽
+    scrollStartLeft.current = containerRef.current.scrollLeft // 记录开始拖拽时的滚动位置
+
+    // 更新鼠标样式，显示为抓取状态
+    containerRef.current.style.cursor = 'grabbing'
+  }
+
+  // 处理鼠标和触摸移动事件
+  const handleDragMove = e => {
+    if (!isDragging.current) return // 如果未处于拖拽状态，直接返回
+
+    const x = e.touches ? e.touches[0].clientX : e.clientX // 获取当前的X位置
+    const deltaX = touchStartPos.current.x - x // 计算拖动的距离
+
+    // 根据拖动的距离更新滚动位置
+    containerRef.current.scrollLeft = scrollStartLeft.current + deltaX
+  }
+
+  // 处理鼠标和触摸结束事件
+  const handleDragEnd = () => {
+    isDragging.current = false // 标记为非拖拽状态
+    containerRef.current.style.cursor = 'grab' // 恢复鼠标样式
+  }
+
+  // 处理指示器点击事件，更新当前显示的索引
+  const handleIndicatorClick = index => {
+    setCurrentIndex(index) // 更新当前索引
+    scrollToCard(index) // 滚动到对应的卡片
+  }
+
+  // 滚动到特定卡片
+  const scrollToCard = index => {
+    const container = containerRef.current
+    if (!container) return
+    const cardWidth = container.scrollWidth / posts.length // 计算每个卡片的宽度
+    container.scrollTo({
+      left: index * cardWidth - cardWidth / 6, // 调整位置使卡片居中
+      behavior: 'smooth' // 使用平滑滚动
+    })
+  }
 
   return (
     <div className='relative w-full mx-auto px-12 my-8'>
+      {/* 左侧箭头按钮 */}
+      <div
+        className='absolute inset-y-0 left-0 w-12 z-10 cursor-pointer flex items-center justify-center'
+        onClick={() =>
+          handleIndicatorClick(
+            currentIndex === 0 ? posts.length - 1 : currentIndex - 1
+          )
+        }>
+        <span className="text-white text-2xl">&#8592;</span> {/* 左箭头 */}
+      </div>
+
+      {/* 右侧箭头按钮 */}
+      <div
+        className='absolute inset-y-0 right-0 w-12 z-10 cursor-pointer flex items-center justify-center'
+        onClick={() =>
+          handleIndicatorClick(
+            currentIndex === posts.length - 1 ? 0 : currentIndex + 1
+          )
+        }>
+        <span className="text-white text-2xl">&#8594;</span> {/* 右箭头 */}
+      </div>
+
       {/* 滑动区域 */}
       <div
-        ref={containerRef}
-        className='relative w-full overflow-x-hidden py-4'
+        ref={containerRef} // 绑定引用
+        className='relative w-full overflow-x-hidden py-4 cursor-grab' // 设置滑动区域的样式
+        onTouchStart={handleDragStart} // 处理触摸开始事件
+        onTouchMove={handleDragMove} // 处理触摸移动事件
+        onTouchEnd={handleDragEnd} // 处理触摸结束事件
+        onMouseDown={handleDragStart} // 处理鼠标按下事件
+        onMouseMove={handleDragMove} // 处理鼠标移动事件
+        onMouseUp={handleDragEnd} // 处理鼠标松开事件
+        onMouseLeave={handleDragEnd} // 处理鼠标离开事件
         style={{ WebkitOverflowScrolling: 'touch' }}> {/* 使在iOS上滚动更顺滑 */}
         <div className='flex gap-x-4 transition-transform'>
           {/* 遍历每个文章对象并渲染PostItemCard */}
