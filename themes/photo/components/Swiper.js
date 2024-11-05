@@ -6,65 +6,37 @@ const Swiper = ({ posts }) => {
   const containerRef = useRef(null) // 滚动容器引用
 
   // 拖拽相关引用变量
-  const touchStartPos = useRef({ x: 0, y: 0 }) // 记录拖拽的起始位置
+  const touchStartPos = useRef(0) // 记录触摸的起始X位置
+  const touchEndPos = useRef(0) // 记录触摸的结束X位置
   const isDragging = useRef(false) // 是否处于拖拽状态
-  const scrollStartLeft = useRef(0) // 记录拖拽开始时的滚动位置
-  const velocity = useRef(0) // 记录拖拽的速度
-
-  // 保存拖拽的时间和位置，用于计算速度
-  const dragPositions = useRef([])
 
   // 处理拖拽开始
   const handleDragStart = e => {
     const x = e.touches ? e.touches[0].clientX : e.clientX // 获取X坐标
-    touchStartPos.current = { x }
+    touchStartPos.current = x
     isDragging.current = true
-    scrollStartLeft.current = containerRef.current.scrollLeft
-    containerRef.current.style.cursor = 'grabbing'
-    dragPositions.current = [] // 重置拖拽位置
   }
 
   // 处理拖拽移动
   const handleDragMove = e => {
     if (!isDragging.current) return
     const x = e.touches ? e.touches[0].clientX : e.clientX
-    const deltaX = touchStartPos.current.x - x
-    containerRef.current.scrollLeft = scrollStartLeft.current + deltaX
-
-    // 记录当前位置和时间，用于计算惯性速度
-    const now = Date.now()
-    dragPositions.current.push({ x, time: now })
-    if (dragPositions.current.length > 5) dragPositions.current.shift() // 只保留最近的5次位置
+    touchEndPos.current = x
   }
 
   // 处理拖拽结束
   const handleDragEnd = () => {
     isDragging.current = false
-    containerRef.current.style.cursor = 'grab'
+    const deltaX = touchStartPos.current - touchEndPos.current // 拖拽的X方向位移
 
-    // 计算速度
-    const lastPosition = dragPositions.current[dragPositions.current.length - 1]
-    const firstPosition = dragPositions.current[0]
-    const timeDiff = lastPosition.time - firstPosition.time
-    const distance = lastPosition.x - firstPosition.x
-    velocity.current = distance / timeDiff
-
-    // 惯性滚动
-    const container = containerRef.current
-    const inertiaScroll = () => {
-      if (Math.abs(velocity.current) < 0.01) return // 停止惯性
-      container.scrollLeft += velocity.current * 20 // 滚动距离
-      velocity.current *= 0.95 // 减速因子
-      requestAnimationFrame(inertiaScroll)
+    // 判断拖拽方向并滑动
+    if (deltaX > 50) {
+      // 向左滑动
+      handleNext()
+    } else if (deltaX < -50) {
+      // 向右滑动
+      handlePrev()
     }
-    inertiaScroll()
-
-    // 计算最近的卡片索引并居中
-    const cardWidth = container.offsetWidth // 卡片的宽度
-    const scrollLeft = container.scrollLeft // 当前滚动位置
-    const newIndex = Math.round(scrollLeft / cardWidth) // 计算最近的索引
-    setCurrentIndex(newIndex)
-    scrollToCard(newIndex) // 滚动到最近的卡片
   }
 
   // 滚动到指定索引的卡片
