@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import PostItemCard from './PostItemCard'
+import Link from 'next/link' // 引入 Link 组件
 
 const Swiper = ({ posts }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -32,12 +33,6 @@ const Swiper = ({ posts }) => {
     containerRef.current.style.cursor = 'grab'
   }
 
-  // 处理指示器点击事件
-  const handleIndicatorClick = index => {
-    setCurrentIndex(index)
-    scrollToCard(index)
-  }
-
   // 滚动到特定卡片
   const scrollToCard = index => {
     const container = containerRef.current
@@ -51,26 +46,20 @@ const Swiper = ({ posts }) => {
 
   return (
     <div className='relative w-full mx-auto px-12 my-8'>
-      {/* 左侧箭头按钮 */}
       <div
         className='absolute inset-y-0 left-4 z-10 cursor-pointer flex items-center justify-center'
         onClick={() =>
-          handleIndicatorClick(
-            currentIndex === 0 ? posts.length - 1 : currentIndex - 1
-          )
+          setCurrentIndex(currentIndex === 0 ? posts.length - 1 : currentIndex - 1)
         }>
-        <span className='text-3xl text-gray-700 hover:text-gray-900'>&#10094;</span> {/* 左箭头 */}
+        <span className='text-3xl text-gray-700 hover:text-gray-900'>&#10094;</span>
       </div>
 
-      {/* 右侧箭头按钮 */}
       <div
         className='absolute inset-y-0 right-4 z-10 cursor-pointer flex items-center justify-center'
         onClick={() =>
-          handleIndicatorClick(
-            currentIndex === posts.length - 1 ? 0 : currentIndex + 1
-          )
+          setCurrentIndex((currentIndex + 1) % posts.length)
         }>
-        <span className='text-3xl text-gray-700 hover:text-gray-900'>&#10095;</span> {/* 右箭头 */}
+        <span className='text-3xl text-gray-700 hover:text-gray-900'>&#10095;</span>
       </div>
 
       {/* 滑动区域 */}
@@ -86,10 +75,12 @@ const Swiper = ({ posts }) => {
         onMouseLeave={handleDragEnd}
         style={{ WebkitOverflowScrolling: 'touch' }}>
         <div className='flex gap-x-4 transition-transform'>
-          {posts.map((item, index) => (
-            <div key={index} className='w-3/4 flex-shrink-0'>
-              <PostItemCard post={item} />
-            </div>
+          {posts.map((post, index) => (
+            <Link key={index} href={post.href} passHref> {/* 包裹 PostItemCard */}
+              <div className='w-3/4 flex-shrink-0'>
+                <PostItemCard post={post} />
+              </div>
+            </Link>
           ))}
         </div>
       </div>
