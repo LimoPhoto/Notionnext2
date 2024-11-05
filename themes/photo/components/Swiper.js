@@ -1,19 +1,26 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 import PostItemCard from './PostItemCard'
 
 const Swiper = ({ posts }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const containerRef = useRef(null)
 
-  // 自动轮播
-  useEffect(() => {
-    const interval = setInterval(() => {
-      handleNext()
-    }, 3000) // 3秒切换
-    return () => clearInterval(interval)
-  }, [])
+  // 处理点击事件，根据点击位置决定滑动方向
+  const handleClick = e => {
+    const container = containerRef.current
+    if (!container) return
+    const containerWidth = container.offsetWidth
+    const clickX = e.clientX
 
-  // 滚动到指定卡片，带动画效果
+    // 判断点击位置是否在左半部分或右半部分
+    if (clickX < containerWidth / 2) {
+      handlePrev() // 点击左侧则向左滑动
+    } else {
+      handleNext() // 点击右侧则向右滑动
+    }
+  }
+
+  // 滑动到指定卡片
   const scrollToCard = index => {
     const container = containerRef.current
     if (!container) return
@@ -38,31 +45,14 @@ const Swiper = ({ posts }) => {
     scrollToCard(newIndex)
   }
 
-  // 处理点击事件，根据点击位置决定向左还是向右滑动
-  const handleClick = e => {
-    const container = containerRef.current
-    if (!container) return
-
-    // 获取点击位置和容器宽度
-    const clickX = e.clientX
-    const containerRect = container.getBoundingClientRect()
-    const containerMidX = containerRect.left + containerRect.width / 2
-
-    if (clickX < containerMidX) {
-      handlePrev() // 点击左侧，向左滑动
-    } else {
-      handleNext() // 点击右侧，向右滑动
-    }
-  }
-
   return (
     <div className='relative w-full mx-auto px-12 my-8'>
-      {/* 滑动区域 */}
+      {/* 滑动区域，监听点击事件 */}
       <div
         ref={containerRef}
         className='relative w-full overflow-x-hidden py-4 cursor-pointer'
-        style={{ WebkitOverflowScrolling: 'touch' }}
-        onClick={handleClick}> {/* 监听点击事件 */}
+        onClick={handleClick} // 处理点击事件
+        style={{ WebkitOverflowScrolling: 'touch' }}>
         <div className='flex gap-x-4 transition-transform'>
           {/* 渲染每个卡片 */}
           {posts.map((item, index) => (
@@ -71,6 +61,20 @@ const Swiper = ({ posts }) => {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* 底部指示器 */}
+      <div className='absolute bottom-0 left-0 right-0 flex justify-center space-x-2'>
+        {posts.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => handleIndicatorClick(index)}
+            className={`w-3 h-3 rounded-full ${
+              currentIndex === index
+                ? 'bg-black dark:bg-white'
+                : 'bg-gray-300 dark:bg-gray-700'
+            }`}></button>
+        ))}
       </div>
     </div>
   )
