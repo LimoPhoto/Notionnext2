@@ -38,27 +38,31 @@ const Swiper = ({ posts }) => {
     scrollToCard(newIndex)
   }
 
+  // 处理点击事件，根据点击位置决定向左还是向右滑动
+  const handleClick = e => {
+    const container = containerRef.current
+    if (!container) return
+
+    // 获取点击位置和容器宽度
+    const clickX = e.clientX
+    const containerRect = container.getBoundingClientRect()
+    const containerMidX = containerRect.left + containerRect.width / 2
+
+    if (clickX < containerMidX) {
+      handlePrev() // 点击左侧，向左滑动
+    } else {
+      handleNext() // 点击右侧，向右滑动
+    }
+  }
+
   return (
     <div className='relative w-full mx-auto px-12 my-8'>
-      {/* 左侧箭头 */}
-      <div
-        className='absolute inset-y-0 left-0 z-10 cursor-pointer flex items-center'
-        onClick={handlePrev}>
-        <span className='text-3xl'>&#9664;</span> {/* 左箭头图标 */}
-      </div>
-
-      {/* 右侧箭头 */}
-      <div
-        className='absolute inset-y-0 right-0 z-10 cursor-pointer flex items-center'
-        onClick={handleNext}>
-        <span className='text-3xl'>&#9654;</span> {/* 右箭头图标 */}
-      </div>
-
       {/* 滑动区域 */}
       <div
         ref={containerRef}
-        className='relative w-full overflow-x-hidden py-4'
-        style={{ WebkitOverflowScrolling: 'touch' }}>
+        className='relative w-full overflow-x-hidden py-4 cursor-pointer'
+        style={{ WebkitOverflowScrolling: 'touch' }}
+        onClick={handleClick}> {/* 监听点击事件 */}
         <div className='flex gap-x-4 transition-transform'>
           {/* 渲染每个卡片 */}
           {posts.map((item, index) => (
