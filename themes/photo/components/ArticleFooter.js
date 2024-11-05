@@ -49,8 +49,8 @@ export default function ArticleFooter(props) {
       </div>
 
       {/* 发布日期信息 */}
-      {/* 将发布日期信息定位在页面右侧，并确保下划线长度与日期文字相同 */}
-      <div className='text-right mt-4 mr-2'>
+      {/* 将发布日期信息定位在页面中间 */}
+      <div className='flex justify-center mt-4'>
         <Link
           href={`/archive#${formatDateFmt(post?.publishDate, 'yyyy-MM')}`}
           passHref
