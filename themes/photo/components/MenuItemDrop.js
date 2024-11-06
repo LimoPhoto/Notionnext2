@@ -15,7 +15,7 @@ export const MenuItemDrop = ({ link }) => {
     // 包裹组件的根 div，控制鼠标移入和移出时的子菜单显示状态
     <div
       onMouseOver={() => changeShow(true)} // 鼠标移入时，显示子菜单
-      onMouseOut={() => changeShow(false)}> // 鼠标移出时，隐藏子菜单
+      onMouseOut={() => changeShow(false)}>
 
       {/* 当没有子菜单时，显示 Link 组件作为菜单项 */}
       {!hasSubMenu && (
