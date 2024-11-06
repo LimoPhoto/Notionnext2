@@ -1,10 +1,6 @@
 import Link from 'next/link'
 import { useState } from 'react'
-/**
- * 支持二级展开的菜单
- * @param {*} param0
- * @returns
- */
+
 export const MenuItemDrop = ({ link }) => {
   const [show, changeShow] = useState(false)
   const hasSubMenu = link?.subMenus?.length > 0
@@ -21,18 +17,17 @@ export const MenuItemDrop = ({ link }) => {
         <Link
           href={link?.href}
           target={link?.target}
-          className=' menu-link pl-2 pr-4 no-underline tracking-widest pb-1'>
+          className='select-none menu-link pl-2 pr-4 no-underline tracking-widest pb-1 hover:font-bold'>
           {link?.icon && <i className={link?.icon} />} {link?.name}
-          {hasSubMenu && <i className='px-2 fa fa-angle-down'></i>}
+          {/* 移除箭头图标 */}
         </Link>
       )}
 
       {hasSubMenu && (
         <>
-          <div className='cursor-pointer menu-link pl-2 pr-4  no-underline tracking-widest pb-1'>
+          <div className='cursor-pointer menu-link pl-2 pr-4  no-underline tracking-widest pb-1 hover:font-bold'>
             {link?.icon && <i className={link?.icon} />} {link?.name}
-            <i
-              className={`px-2 fa fa-angle-down duration-300  ${show ? 'rotate-180' : 'rotate-0'}`}></i>
+            {/* 移除箭头图标 */}
           </div>
         </>
       )}
@@ -41,14 +36,14 @@ export const MenuItemDrop = ({ link }) => {
       {hasSubMenu && (
         <ul
           style={{ backdropFilter: 'blur(3px)' }}
-          className={`${show ? 'visible opacity-100 top-12' : 'invisible opacity-0 top-20'} drop-shadow-md overflow-hidden rounded-md text-black dark:text-white bg-white dark:bg-black transition-all duration-300 z-20 absolute block  `}>
+          className={`${show ? 'visible opacity-100 top-14' : 'invisible opacity-0 top-20'} drop-shadow-md overflow-hidden rounded-md text-black dark:text-white bg-white dark:bg-black transition-all duration-300 z-30 absolute block  `}>
           {link.subMenus.map((sLink, index) => {
             return (
               <li
                 key={index}
-                className='cursor-pointer hover:bg-indigo-500 hover:text-white tracking-widest transition-all duration-200 dark:border-gray-800  py-1 pr-6 pl-3'>
+                className='cursor-pointer text-start dark:bg-hexo-black-gray dark:hover:bg-gray-300 hover:bg-gray-300 hover:text-black tracking-widest transition-all duration-200 dark:border-gray-800  py-1 pr-6 pl-3'>
                 <Link href={sLink.href} target={link?.target}>
-                  <span className='text-sm text-nowrap font-extralight'>
+                  <span className='text-sm'>
                     {link?.icon && <i className={sLink?.icon}> &nbsp; </i>}
                     {sLink.title}
                   </span>
