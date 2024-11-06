@@ -64,7 +64,7 @@ export const Header = props => {
         {/* 左侧Logo */}
         <Link
           href='/'
-          className='logo whitespace-nowrap text-2xl md:text-3xl font-bold text-gray-dark no-underline flex items-center'>
+          className='logo whitespace-nowrap text-xl md:text-2xl font-bold text-gray-dark no-underline flex items-center'>
           {siteConfig('TITLE')} {/* 显示站点标题 */}
         </Link>
 
