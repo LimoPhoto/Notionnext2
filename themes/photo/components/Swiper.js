@@ -4,28 +4,16 @@ import PostItemCard from './PostItemCard'
 const Swiper = ({ posts }) => {
   const [currentIndex, setCurrentIndex] = useState(0) // 当前卡片索引
   const containerRef = useRef(null) // 滚动容器引用
-  const [isLandscape, setIsLandscape] = useState(window.innerWidth > window.innerHeight) // 是否为横屏状态
+  const [isLandscape, setIsLandscape] = useState(window.innerWidth < window.innerHeight) // 是否为横屏状态
 
   // 监听窗口大小变化，用于检测横屏/竖屏状态
   useEffect(() => {
     const handleResize = () => {
-      setIsLandscape(window.innerWidth > window.innerHeight)
+      setIsLandscape(window.innerWidth < window.innerHeight)
     }
     window.addEventListener('resize', handleResize)
-
-    // 竖屏时禁用页面上下滚动
-    if (!isLandscape) {
-      document.body.style.overflowY = 'hidden'
-    } else {
-      document.body.style.overflowY = 'auto' // 恢复正常滚动
-    }
-
-    // 清理函数，在组件卸载时重置滚动设置
-    return () => {
-      window.removeEventListener('resize', handleResize)
-      document.body.style.overflowY = 'auto'
-    }
-  }, [isLandscape])
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   // 拖拽相关引用变量
   const touchStartPos = useRef(0) // 记录触摸的起始X位置
@@ -34,6 +22,7 @@ const Swiper = ({ posts }) => {
 
   // 处理拖拽开始
   const handleDragStart = e => {
+    if (isLandscape && !e.touches) return // 禁用横屏鼠标拖拽
     const x = e.touches ? e.touches[0].clientX : e.clientX
     touchStartPos.current = x
     isDragging.current = true
