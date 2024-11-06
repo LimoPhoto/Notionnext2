@@ -23,7 +23,7 @@ export const MenuItemDrop = ({ link }) => {
           href={link?.href} // 导航链接
           target={link?.target} // 设置打开方式（新标签或当前标签）
           className='select-none menu-link pl-2 pr-4 no-underline tracking-widest pb-1'
-          style={{ textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)' }}> {/* 添加浅色阴影 */}
+          style={{ textShadow: '1px 1px 2px rgba(255, 255, 255, 0.6)' }}> {/* 添加浅色阴影 */}
           {link?.icon && <i className={link?.icon} />} {/* 如果链接包含图标，则显示图标 */}
           {link?.name} {/* 显示菜单项名称 */}
         </Link>
