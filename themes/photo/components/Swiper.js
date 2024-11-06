@@ -147,7 +147,7 @@ const Swiper = ({ posts }) => {
       >
         <div className='flex transition-transform' style={{ width: '100%' }}>
           {posts.map((item, index) => (
-            <div key={index} className='w-full flex-shrink-0'>
+            <div key={index} className='w-full flex-shrink-0 mr-4'> {/* 设置每张图片右边距 */}
               <PostItemCard post={item} />
             </div>
           ))}
