@@ -22,8 +22,7 @@ const Swiper = ({ posts }) => {
 
   // 处理拖拽开始
   const handleDragStart = e => {
-    // 如果为横屏设备且为鼠标事件则禁用拖拽
-    if (isLandscape && !e.touches) return
+    if (isLandscape && !e.touches) return // 禁用横屏鼠标拖拽
     const x = e.touches ? e.touches[0].clientX : e.clientX
     touchStartPos.current = x
     isDragging.current = true
@@ -50,16 +49,37 @@ const Swiper = ({ posts }) => {
     }
   }
 
+  // 使用 requestAnimationFrame 实现平滑滚动
+  const smoothScrollTo = (targetPosition) => {
+    const container = containerRef.current
+    if (!container) return
+
+    const startPosition = container.scrollLeft
+    const distance = targetPosition - startPosition
+    let startTime = null
+
+    const animateScroll = (timestamp) => {
+      if (!startTime) startTime = timestamp
+      const elapsed = timestamp - startTime
+      const progress = Math.min(elapsed / 500, 1) // 500ms 过渡时间
+
+      container.scrollLeft = startPosition + distance * progress
+
+      if (progress < 1) {
+        requestAnimationFrame(animateScroll)
+      }
+    }
+
+    requestAnimationFrame(animateScroll)
+  }
+
   // 滚动到指定索引的卡片
   const scrollToCard = index => {
     const container = containerRef.current
     if (!container) return
     const cardWidth = container.offsetWidth
-    const scrollPosition = index * cardWidth
-    container.scrollTo({
-      left: scrollPosition,
-      behavior: 'smooth',
-    })
+    const targetPosition = index * cardWidth
+    smoothScrollTo(targetPosition)
   }
 
   // 处理点击左箭头
@@ -78,7 +98,6 @@ const Swiper = ({ posts }) => {
 
   return (
     <div className='relative w-full mx-auto px-12 my-8'>
-      {/* 左侧箭头按钮，竖屏时隐藏 */}
       {!isLandscape && (
         <div
           className='absolute inset-y-0 left-4 z-10 cursor-pointer flex items-center justify-center'
@@ -86,8 +105,6 @@ const Swiper = ({ posts }) => {
           <span className='text-3xl text-gray-700 hover:text-gray-900'>&#10094;</span>
         </div>
       )}
-
-      {/* 右侧箭头按钮，竖屏时隐藏 */}
       {!isLandscape && (
         <div
           className='absolute inset-y-0 right-4 z-10 cursor-pointer flex items-center justify-center'
