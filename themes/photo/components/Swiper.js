@@ -5,7 +5,6 @@ const Swiper = ({ posts }) => {
   const [currentIndex, setCurrentIndex] = useState(0) // 当前卡片索引
   const containerRef = useRef(null) // 滚动容器引用
   const [isLandscape, setIsLandscape] = useState(window.innerWidth < window.innerHeight) // 是否为横屏状态
-  const [isMouseActive, setIsMouseActive] = useState(true) // 检测鼠标是否活动
 
   // 监听窗口大小变化，用于检测横屏/竖屏状态
   useEffect(() => {
@@ -14,20 +13,6 @@ const Swiper = ({ posts }) => {
     }
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
-  }, [])
-
-  // 检测鼠标活动，并在不活动时隐藏箭头
-  useEffect(() => {
-    const handleMouseActivity = () => {
-      setIsMouseActive(true)
-      clearTimeout(window.hideArrowsTimeout)
-      window.hideArrowsTimeout = setTimeout(() => setIsMouseActive(false), 2000)
-    }
-    window.addEventListener('mousemove', handleMouseActivity)
-    return () => {
-      window.removeEventListener('mousemove', handleMouseActivity)
-      clearTimeout(window.hideArrowsTimeout)
-    }
   }, [])
 
   // 拖拽相关引用变量
@@ -117,14 +102,14 @@ const Swiper = ({ posts }) => {
 
   return (
     <div className='relative w-full mx-auto px-12 my-8'>
-      {!isLandscape && isMouseActive && currentIndex > 0 && (
+      {!isLandscape && (
         <div
           className='absolute inset-y-0 left-4 z-10 cursor-pointer flex items-center justify-center'
           onClick={handlePrev}>
           <span className='text-3xl text-gray-700 hover:text-gray-900'>&#10094;</span>
         </div>
       )}
-      {!isLandscape && isMouseActive && currentIndex < posts.length - 1 && (
+      {!isLandscape && (
         <div
           className='absolute inset-y-0 right-4 z-10 cursor-pointer flex items-center justify-center'
           onClick={handleNext}>
@@ -132,22 +117,23 @@ const Swiper = ({ posts }) => {
         </div>
       )}
 
-      {/* 滑动区域 */}
-      <div
-        ref={containerRef}
-        className='relative w-full overflow-x-hidden py-4 cursor-grab flex justify-center'
-        onTouchStart={handleDragStart}
-        onTouchMove={handleDragMove}
-        onTouchEnd={handleDragEnd}
-        onMouseDown={handleDragStart}
-        onMouseMove={handleDragMove}
-        onMouseUp={handleDragEnd}
-        onMouseLeave={handleDragEnd}
-        style={{ WebkitOverflowScrolling: 'touch' }}
-      >
-        <div className='flex transition-transform' style={{ width: '100%' }}>
+      {/* 外部居中容器 */}
+      <div className='overflow-hidden flex justify-center w-full'>
+        {/* 滑动区域 */}
+        <div
+          ref={containerRef}
+          className='flex gap-4 transition-transform'
+          onTouchStart={handleDragStart}
+          onTouchMove={handleDragMove}
+          onTouchEnd={handleDragEnd}
+          onMouseDown={handleDragStart}
+          onMouseMove={handleDragMove}
+          onMouseUp={handleDragEnd}
+          onMouseLeave={handleDragEnd}
+          style={{ WebkitOverflowScrolling: 'touch', width: '90%' }}
+        >
           {posts.map((item, index) => (
-            <div key={index} className='w-full flex-shrink-0 mr-4'> {/* 设置每张图片右边距 */}
+            <div key={index} className='flex-shrink-0 w-full'>
               <PostItemCard post={item} />
             </div>
           ))}
