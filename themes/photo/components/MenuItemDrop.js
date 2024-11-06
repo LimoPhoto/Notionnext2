@@ -22,8 +22,8 @@ export const MenuItemDrop = ({ link }) => {
         <Link
           href={link?.href} // 导航链接
           target={link?.target} // 设置打开方式（新标签或当前标签）
-          className='select-none menu-link pl-2 pr-4 no-underline tracking-widest pb-1 hover:text-gray-700 dark:hover:text-gray-300'>
-          {/* 添加文本颜色变化 */}
+          className='select-none menu-link pl-2 pr-4 no-underline tracking-widest pb-1'
+          style={{ textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)' }}> {/* 添加浅色阴影 */}
           {link?.icon && <i className={link?.icon} />} {/* 如果链接包含图标，则显示图标 */}
           {link?.name} {/* 显示菜单项名称 */}
         </Link>
@@ -32,8 +32,9 @@ export const MenuItemDrop = ({ link }) => {
       {/* 如果存在子菜单，则以 div 元素显示菜单项 */}
       {hasSubMenu && (
         <>
-          <div className='cursor-pointer menu-link pl-2 pr-4 no-underline tracking-widest pb-1 hover:text-gray-700 dark:hover:text-gray-300'>
-            {/* 添加文本颜色变化 */}
+          <div
+            className='cursor-pointer menu-link pl-2 pr-4 no-underline tracking-widest pb-1'
+            style={{ textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)' }}> {/* 添加浅色阴影 */}
             {link?.icon && <i className={link?.icon} />} {/* 如果链接包含图标，则显示图标 */}
             {link?.name} {/* 显示菜单项名称 */}
           </div>
@@ -50,8 +51,8 @@ export const MenuItemDrop = ({ link }) => {
               // 遍历每个子菜单项并创建列表项 li
               <li
                 key={index} // 使用 index 作为 key
-                className='cursor-pointer text-start dark:text-white text-gray-900 hover:text-gray-700 dark:hover:text-gray-300 tracking-wider transition-all duration-200 py-0.5 pr-6 pl-3'>
-                {/* 子菜单项的样式 */}
+                className='cursor-pointer text-start dark:text-white text-gray-900 tracking-wider transition-all duration-200 py-0.5 pr-6 pl-3'
+                style={{ textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)' }}> {/* 添加浅色阴影 */}
                 <Link href={sLink.href} target={link?.target}> {/* 子菜单项的链接 */}
                   <span className='text-sm'>
                     {link?.icon && <i className={sLink?.icon}> &nbsp; </i>} {/* 如果有图标，则显示图标 */}
