@@ -84,16 +84,20 @@ const Swiper = ({ posts }) => {
 
   // 处理点击左箭头
   const handlePrev = () => {
-    const newIndex = currentIndex > 0 ? currentIndex - 1 : posts.length - 1
-    setCurrentIndex(newIndex)
-    scrollToCard(newIndex)
+    if (currentIndex > 0) {
+      const newIndex = currentIndex - 1
+      setCurrentIndex(newIndex)
+      scrollToCard(newIndex)
+    }
   }
 
   // 处理点击右箭头
   const handleNext = () => {
-    const newIndex = (currentIndex + 1) % posts.length
-    setCurrentIndex(newIndex)
-    scrollToCard(newIndex)
+    if (currentIndex < posts.length - 1) {
+      const newIndex = currentIndex + 1
+      setCurrentIndex(newIndex)
+      scrollToCard(newIndex)
+    }
   }
 
   return (
