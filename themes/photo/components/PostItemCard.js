@@ -1,10 +1,13 @@
 import LazyImage from '@/components/LazyImage' // 引入懒加载图片组件，用于优化图片加载
-import { useGlobal } from '@/lib/global' // 引入全局状态钩子，用于访问站点的全局信息
+import NotionIcon from '@/components/NotionIcon' // 引入Notion图标组件，用于显示文章图标
+import { siteConfig } from '@/lib/config' // 引入站点配置
+import { useGlobal } from '@/lib/global' // 引入全局状态钩子
+import { formatDateFmt } from '@/lib/utils/formatDate' // 引入日期格式化函数，用于格式化文章发布日期
 import { useRouter } from 'next/router' // 引入Next.js的useRouter钩子用于页面导航
 
 /**
  * 普通的博客卡片组件
- * 仅带封面图，保持比例和居中显示
+ * 带封面图、标题和日期
  */
 const PostItemCard = ({ post }) => {
   const { siteInfo } = useGlobal() // 使用useGlobal钩子获取站点信息
@@ -31,9 +34,25 @@ const PostItemCard = ({ post }) => {
             className='w-full h-full object-contain select-none' // 使用object-contain保持图片比例和完整显示，禁用选择
           />
         </div>
+
+        {/* 文章标题和日期区域 */}
+        <div className='absolute bottom-0 p-4 bg-opacity-60 bg-white w-full'>
+          <h2 className='select-none pointer-events-none'>
+            {/* 如果站点配置了标题图标，显示Notion图标 */}
+            {siteConfig('POST_TITLE_ICON') && (
+              <NotionIcon icon={post.pageIcon} /> // 图标
+            )}
+            {post.title} {/* 显示文章标题 */}
+          </h2>
+
+          {/* 文章发布日期 */}
+          <div className='text-sm select-none pointer-events-none'>
+            {formatDateFmt(post.publishDate, 'yyyy-MM')} {/* 格式化并显示发布日期 */}
+          </div>
+        </div>
       </div>
     </div>
   )
 }
 
-export default PostItemCard // 导出PostItemCard组件，以便在其他地方使用
+export default PostItemCard // 导出PostItemCard组件
