@@ -22,7 +22,8 @@ export const MenuItemDrop = ({ link }) => {
         <Link
           href={link?.href} // 导航链接
           target={link?.target} // 设置打开方式（新标签或当前标签）
-          className='select-none menu-link pl-2 pr-4 no-underline tracking-widest pb-1 hover:font-bold'> {/* 添加样式 */}
+          className='select-none menu-link pl-2 pr-4 no-underline tracking-widest pb-1 hover:underline hover:underline-black'>
+          {/* 添加下划线样式 */}
           {link?.icon && <i className={link?.icon} />} {/* 如果链接包含图标，则显示图标 */}
           {link?.name} {/* 显示菜单项名称 */}
         </Link>
@@ -31,7 +32,8 @@ export const MenuItemDrop = ({ link }) => {
       {/* 如果存在子菜单，则以 div 元素显示菜单项 */}
       {hasSubMenu && (
         <>
-          <div className='cursor-pointer menu-link pl-2 pr-4 no-underline tracking-widest pb-1 hover:font-bold'> {/* 添加样式 */}
+          <div className='cursor-pointer menu-link pl-2 pr-4 no-underline tracking-widest pb-1 hover:underline hover:underline-black'>
+            {/* 添加下划线样式 */}
             {link?.icon && <i className={link?.icon} />} {/* 如果链接包含图标，则显示图标 */}
             {link?.name} {/* 显示菜单项名称 */}
           </div>
@@ -48,7 +50,7 @@ export const MenuItemDrop = ({ link }) => {
               // 遍历每个子菜单项并创建列表项 li
               <li
                 key={index} // 使用 index 作为 key
-                className='cursor-pointer text-start dark:text-white hover:font-semibold tracking-wider transition-all duration-200 py-0.5 pr-6 pl-3'>
+                className='cursor-pointer text-start dark:text-white tracking-wider transition-all duration-200 py-0.5 pr-6 pl-3 hover:underline hover:underline-black'>
                 {/* 子菜单项的样式 */}
                 <Link href={sLink.href} target={link?.target}> {/* 子菜单项的链接 */}
                   <span className='text-sm'>
