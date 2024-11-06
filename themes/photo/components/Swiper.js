@@ -92,8 +92,12 @@ const Swiper = ({ posts }) => {
   const scrollToCard = index => {
     const container = containerRef.current
     if (!container) return
+
     const cardWidth = container.offsetWidth
-    const targetPosition = index * cardWidth
+    const cardMargin = 16 // 假设每张图片之间的间距为16px
+
+    // 计算目标滚动位置，将每张图片的宽度和间距相加
+    const targetPosition = index * (cardWidth + cardMargin)
     smoothScrollTo(targetPosition)
   }
 
@@ -145,7 +149,7 @@ const Swiper = ({ posts }) => {
         onMouseLeave={handleDragEnd}
         style={{ WebkitOverflowScrolling: 'touch' }}
       >
-        <div className='flex transition-transform' style={{ width: '100%' }}>
+        <div className='flex transition-transform gap-4' style={{ width: '100%' }}> {/* 设置图片间距 */}
           {posts.map((item, index) => (
             <div key={index} className='w-full flex-shrink-0'>
               <PostItemCard post={item} />
