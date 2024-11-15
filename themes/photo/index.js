@@ -102,8 +102,7 @@ const LayoutBase = props => {
           </div>
         </div>
 
-        {/* 页脚 */}
-        <Footer {...props} />
+        {/* 页脚  <Footer {...props} />  */}
 
         {/* 搜索框 */}
         <AlgoliaSearchModal cRef={searchModal} {...props} />
