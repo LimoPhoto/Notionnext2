@@ -27,27 +27,31 @@ const BlogPost = (props) => {
   }
 
   return (
-        <article
-            onClick={handleClick}
-            data-aos-delay={`${delay}`}
-            data-aos="fade-up"
-            data-aos-duration="500"
-            data-aos-once="true"
-            data-aos-anchor-placement="top-bottom"
-            key={post?.id} className='cursor-pointer relative'>
+       <article
+  onClick={handleClick}
+  data-aos-delay={`${delay}`}
+  data-aos="fade-up"
+  key={post?.id} 
+  className='cursor-pointer relative'>
 
-            <LazyImage src={pageThumbnail} className='aspect-[4/3] w-full h-full object-cover filter contrast-120' />
+  {/* 关键修改：移除 aspect-ratio 和 object-cover，改用自然尺寸 */}
+  <LazyImage 
+    src={pageThumbnail} 
+    className='w-full h-auto max-h-[400px] object-contain' 
+  />
 
-            <h2 className="text-md absolute left-0 bottom-0 m-4 text-gray-100 shadow-text">
-                {siteConfig('POST_TITLE_ICON') && <NotionIcon icon={post.pageIcon} />} {post?.title}
-            </h2>
-            {post?.category && <div className='text-xs rounded-lg absolute left-0 top-0 m-4 px-2 py-1 bg-gray-200 dark:bg-black dark:bg-opacity-25 hover:bg-blue-700 hover:text-white duration-200'>
-                <Link href={`/category/${post?.category}`}>
-                {post?.category}
-                </Link>
-            </div>}
-
-        </article>
+  <h2 className="text-md absolute left-0 bottom-0 m-4 text-gray-100 shadow-text">
+    {siteConfig('POST_TITLE_ICON') && <NotionIcon icon={post.pageIcon} />} {post?.title}
+  </h2>
+  
+  {post?.category && (
+    <div className='text-xs rounded-lg absolute left-0 top-0 m-4 px-2 py-1 bg-gray-200 dark:bg-black dark:bg-opacity-25 hover:bg-blue-700 hover:text-white duration-200'>
+      <Link href={`/category/${post?.category}`}>
+        {post?.category}
+      </Link>
+    </div>
+  )}
+</article>
 
   )
 }
