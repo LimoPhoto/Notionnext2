@@ -47,10 +47,14 @@ export const BlogListPage = props => {
     }
   }, [])
   return (
-    <div className='w-full'>
-     <div id='posts-wrapper' className='grid lg:grid-cols-3 grid-cols-1 md:grid-cols-2 grid-auto-rows: min-content'>
+<div className='flex flex-wrap -mx-2'> {/* 负margin抵消padding */}
   {posts?.map((post, index) => (
-    <BlogPost key={post.id} post={post} index={index} />
+    <div 
+      key={post.id} 
+      className='w-full px-2 mb-4 md:w-1/2 lg:w-1/3' {/* 基础宽度 + 间距 */}
+    >
+      <BlogPost post={post} />
+    </div>
   ))}
 </div>
 
