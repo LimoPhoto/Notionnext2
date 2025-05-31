@@ -47,7 +47,7 @@ export const BlogListPage = props => {
     }
   }, [])
   return (
-
+<div className="w-full">
 <div className='flex flex-wrap -mx-2'> 
   {posts?.map((post, index) => (
     <div 
