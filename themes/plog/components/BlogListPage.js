@@ -48,11 +48,11 @@ export const BlogListPage = props => {
   }, [])
   return (
 {/* 方法一实现（推荐） */}
-<div className='flex flex-wrap -mx-2'> {/* 负margin抵消padding */}
+<div className='flex flex-wrap -mx-2'> 
   {posts?.map((post, index) => (
     <div 
       key={post.id} 
-      className='w-full px-2 mb-4 md:w-1/2 lg:w-1/3' {/* 基础宽度 + 间距 */}
+      className='w-full px-2 mb-4 md:w-1/2 lg:w-1/3' 
     >
       <BlogPost post={post} />
     </div>
