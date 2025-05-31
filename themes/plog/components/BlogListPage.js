@@ -47,10 +47,21 @@ export const BlogListPage = props => {
     }
   }, [])
   return (
-<div id='posts-wrapper' className='grid lg:grid-cols-3 grid-cols-1 md:grid-cols-2 auto-rows-min'>
-  {posts?.map((post, index) => (
-    <BlogPost key={post.id} post={post} index={index} />
-  ))}
+<div className='w-full'>
+      <div
+        id='posts-wrapper'
+        className='grid lg:grid-cols-3 grid-cols-1 md:grid-cols-2'>
+        {posts?.map((post, index) => (
+          <BlogPost
+            index={index}
+            key={post.id}
+            className='blog-post'
+            post={post}
+            {...props}
+            ref={el => blogPostRefs.current.push(el)}
+          />
+        ))}
+
 </div>
 
       <div className='flex justify-between text-xs'>
