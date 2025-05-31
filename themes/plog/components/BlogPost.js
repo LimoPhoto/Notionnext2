@@ -37,7 +37,7 @@ const BlogPost = (props) => {
   {/* 关键修改：移除 aspect-ratio 和 object-cover，改用自然尺寸 */}
   <LazyImage 
     src={pageThumbnail} 
-    className='w-full h-auto max-h-[400px] object-contain' 
+    className='w-full h-auto ' 
   />
 
   <h2 className="text-md absolute left-0 bottom-0 m-4 text-gray-100 shadow-text">
