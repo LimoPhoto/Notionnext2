@@ -48,16 +48,12 @@ export const BlogListPage = props => {
   }, [])
   return (
 <div className="w-full">
-<div className='flex flex-wrap items-start -mx-2'> 
-  {posts?.map((post, index) => (
-    <div 
-      key={post.id} 
-      className='w-full px-2 mb-4 md:w-1/2 lg:w-1/3' 
-    >
+<div className="columns-1 md:columns-2 lg:columns-3 gap-4">
+  {posts?.map(post => (
+    <div className="break-inside-avoid mb-4">
       <BlogPost post={post} />
     </div>
   ))}
-
 </div>
 
       <div className='flex justify-between text-xs'>
