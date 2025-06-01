@@ -30,12 +30,11 @@ export const BlogListPage = props => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.toggle('visible')
-             observer.unobserve(entry.target);
           }
         })
       },
       {
-        threshold: 0.01 // 调整阈值以达到最佳效果
+        threshold: 0.8 // 调整阈值以达到最佳效果
       }
     )
 
