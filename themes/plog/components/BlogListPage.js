@@ -30,6 +30,7 @@ export const BlogListPage = props => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.toggle('visible')
+             observer.unobserve(entry.target);
           }
         })
       },
