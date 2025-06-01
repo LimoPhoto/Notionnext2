@@ -34,7 +34,7 @@ export const BlogListPage = props => {
         })
       },
       {
-        threshold: 0.1 // 调整阈值以达到最佳效果
+        threshold: 0.01 // 调整阈值以达到最佳效果
       }
     )
 
