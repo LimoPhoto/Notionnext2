@@ -47,7 +47,7 @@ export const BlogListPage = props => {
     }
   }, [])
   return (
-<div className="w-full">
+<div className="w-full px-4">
 <div className="columns-1 md:columns-2 lg:columns-3 gap-4">
   {posts?.map(post => (
     <div className="break-inside-avoid mb-4">
