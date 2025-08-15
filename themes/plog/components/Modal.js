@@ -116,13 +116,13 @@ export default function Modal(props) {
                 </Link>
 
                 <>
-                  <div className='absolute bottom-0 left-0 m-4 z-20'>
+                 {/*<div className='absolute bottom-0 left-0 m-4 z-20'>
                     <div className='flex'>
                       <h2
                         style={{ textShadow: '0.1em 0.1em 0.2em black' }}
                         className='text-2xl md:text-5xl text-white mb-4 px-2 py-1 rounded-lg'>
-                        {/* {modalContent?.title} */}
-                      </h2>
+                        {modalContent?.title} */}
+                   {/*    </h2>
                     </div>
                     <div
                       style={{ textShadow: '0.1em 0.1em 0.2em black' }}
@@ -141,12 +141,12 @@ export default function Modal(props) {
                         </Link>
                       </div>
                     )}
-                  </div>
+                  </div> */}
 
                   {/* 卡片的阴影遮罩，为了凸显图片上的文字 */}
-                  <div className='h-1/2 w-full absolute left-0 bottom-0'>
+                {/*  <div className='h-1/2 w-full absolute left-0 bottom-0'>
                     <div className='h-full w-full absolute opacity-80 group-hover:opacity-100 transition-all duration-1000 bg-gradient-to-b from-transparent to-black'></div>
-                  </div>
+                  </div> */}
 
                   {/* <div className="z-10 absolute hover:opacity-50 opacity-0 duration-200 transition-opacity w-full top-0 left-0 px-4 h-full items-center flex justify-between"> */}
 
