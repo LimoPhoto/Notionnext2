@@ -91,7 +91,7 @@ export default function Modal(props) {
               leave='ease-in duration-200'
               leaveFrom='opacity-100 translate-y-0 scale-100  max-w-screen'
               leaveTo='opacity-0 translate-y-4 scale-50 w-0'>
-              <Dialog.Panel className='group relative transform overflow-hidden rounded-xl text-left shadow-xl transition-all '>
+              <Dialog.Panel className='group relative transform overflow-hidden rounded-none text-left shadow-xl transition-all '>
                 {/* 添加onLoad事件处理函数 */}
                 {/* 添加loading状态 */}
                 {/* <div
@@ -121,7 +121,7 @@ export default function Modal(props) {
                       <h2
                         style={{ textShadow: '0.1em 0.1em 0.2em black' }}
                         className='text-2xl md:text-5xl text-white mb-4 px-2 py-1 rounded-lg'>
-                        {modalContent?.title}
+                        {/* {modalContent?.title} */}
                       </h2>
                     </div>
                     <div
