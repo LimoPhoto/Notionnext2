@@ -14,7 +14,7 @@ export default function AOSAnimation() {
       loadExternalResource('/css/aos.css', 'css')
     ]).then(() => {
       if (window.AOS) {
-        window.AOS.init()
+        window.AOS.init({ once: true })
       }
     })
   }
