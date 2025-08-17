@@ -119,7 +119,7 @@ export default function Modal(props) {
                 </div>
 
                 {/* 图片区域 */}
-                <div className='overflow-hidden'>
+  
                   <Link href={modalContent?.href ?? '#'} aria-label='Open detail page'>
                     <LazyImage
                       onLoad={handleImageLoad}
@@ -131,7 +131,9 @@ export default function Modal(props) {
                   </Link>
                 </div>
 
-                {/* 左箭头 */}
+
+              </Dialog.Panel>
+                                        {/* 左箭头 */}
                 <button
                   onClick={prev}
                   className='fixed left-0 top-1/2 -translate-y-1/2 px-2 md:px-4
@@ -152,7 +154,6 @@ export default function Modal(props) {
                 >
                   <ChevronRight className='w-16 h-24 md:w-24 md:h-32 stroke-white stroke-1 scale-y-150' />
                 </button>
-              </Dialog.Panel>
             </Transition.Child>
           </div>
         </div>
