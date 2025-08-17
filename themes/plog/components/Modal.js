@@ -130,10 +130,8 @@ export default function Modal(props) {
                     />
                   </Link>
                 </div>
-
-
               </Dialog.Panel>
-                                        {/* 左箭头 */}
+                {/* 左箭头 */}
                 <button
                   onClick={prev}
                   className='fixed left-0 top-1/2 -translate-y-1/2 px-2 md:px-4
