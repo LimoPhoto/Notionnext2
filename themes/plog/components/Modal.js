@@ -18,7 +18,6 @@ export default function Modal(props) {
     'webp'
   )
   const imgRef = useRef(null)
-
   const [loading, setLoading] = useState(true)
 
   function handleImageLoad() {
@@ -37,26 +36,21 @@ export default function Modal(props) {
     setModalContent(index <= 0 ? posts[posts.length - 1] : posts[index - 1])
   }
 
-  const next = () => {
+  function next() {
     if (!posts?.length || !modalContent) return
     setLoading(true)
     const index = posts.findIndex(post => post.slug === modalContent.slug)
     setModalContent(index === posts.length - 1 ? posts[0] : posts[index + 1])
   }
 
+  // 键盘支持：←/→ 切换，Esc 关闭
   useEffect(() => {
-    if (!showModal || typeof window === 'undefined') return
-    const onKeyDown = e => {
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault()
-        prev()
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault()
-        next()
-      } else if (e.key === 'Escape') {
-        e.preventDefault()
-        handleClose()
-      }
+    if (!showModal) return
+    if (typeof window === 'undefined') return
+    const onKeyDown = (e) => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); prev() }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); next() }
+      else if (e.key === 'Escape') { e.preventDefault(); handleClose() }
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
@@ -66,77 +60,83 @@ export default function Modal(props) {
     <Transition.Root show={showModal} as={Fragment}>
       <Dialog
         as='div'
-        className='relative z-20'
+        className='relative z-50'
         initialFocus={cancelButtonRef}
         onClose={handleClose}
       >
-        {/* 遮罩 */}
-        <Transition.Child
-          as={Fragment}
-          enter='ease-out duration-300'
-          enterFrom='opacity-0'
-          enterTo='opacity-100'
-          leave='ease-in duration-200'
-          leaveFrom='opacity-100'
-          leaveTo='opacity-0'
-        >
-          <div
-            style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
-            className='fixed inset-0 glassmorphism transition-opacity'
-          />
-        </Transition.Child>
-
-        <div className='fixed inset-0 z-30 overflow-y-auto'>
-          <div className='flex min-h-full justify-center p-4 text-center items-center'>
+        {/* 不用外部遮罩，这里把遮罩放进 Panel 里，避免“外部点击”误判 */}
+        <div className='fixed inset-0 overflow-y-auto'>
+          <div className='flex min-h-full items-center justify-center p-4'>
             <Transition.Child
               as={Fragment}
-              enter='ease-out duration-300'
-              enterFrom='opacity-0 translate-y-4 scale-50 w-0'
-              enterTo='opacity-100 translate-y-0 max-w-screen'
-              leave='ease-in duration-200'
-              leaveFrom='opacity-100 translate-y-0 scale-100  max-w-screen'
-              leaveTo='opacity-0 translate-y-4 scale-50 w-0'
+              enter='ease-out duration-200'
+              enterFrom='opacity-0'
+              enterTo='opacity-100'
+              leave='ease-in duration-150'
+              leaveFrom='opacity-100'
+              leaveTo='opacity-0'
             >
-              <Dialog.Panel className='group relative transform rounded-none text-left shadow-xl transition-all'>
-                {/* 右下角加载动画 */}
-                <div className={`absolute right-0 bottom-0 m-4 ${loading ? '' : 'hidden'}`}>
-                  <ArrowPath className='w-10 h-10 animate-spin text-gray-200' />
-                </div>
+              {/* Panel 全屏，所有交互都在里面进行 */}
+              <Dialog.Panel className='fixed inset-0 outline-none'>
+                {/* 半透明背景，点击关闭 */}
+                <div
+                  className='absolute inset-0 bg-black/50'
+                  onClick={handleClose}
+                />
 
-                {/* 图片区域（单独包裹以便溢出裁剪） */}
-                <div className='overflow-hidden'>
-                  <Link href={modalContent?.href ?? '#'} aria-label='Open detail page'>
+                {/* 内容层：居中摆放图片 */}
+                <div className='relative z-10 flex h-full w-full items-center justify-center p-4'>
+                  {modalContent?.href ? (
+                    <Link href={modalContent.href} aria-label='Open detail page'>
+                      <LazyImage
+                        onLoad={handleImageLoad}
+                        placeholderSrc={thumbnail}
+                        src={bigImage}
+                        ref={imgRef}
+                        className='w-auto h-auto max-w-7xl max-h-[90vh] select-none shadow-xl animate__animated animate__fadeIn'
+                      />
+                    </Link>
+                  ) : (
                     <LazyImage
                       onLoad={handleImageLoad}
                       placeholderSrc={thumbnail}
                       src={bigImage}
                       ref={imgRef}
-                      className='w-full select-none max-w-7xl max-h-[90vh] shadow-xl animate__animated animate__fadeIn'
+                      className='w-auto h-auto max-w-7xl max-h-[90vh] select-none shadow-xl animate__animated animate__fadeIn'
                     />
-                  </Link>
+                  )}
+
+                  {/* 右下角加载动画 */}
+                  <div className={`absolute right-4 bottom-4 ${loading ? '' : 'hidden'}`}>
+                    <ArrowPath className='w-10 h-10 animate-spin text-gray-200' />
+                  </div>
+
+                  {/* 左箭头（固定页面左侧） */}
+                  <button
+                    type='button'
+                    aria-label='Previous'
+                    className='absolute left-0 top-1/2 -translate-y-1/2 px-2 md:px-4
+                               opacity-70 hover:opacity-100 focus:opacity-100 transition-opacity
+                               cursor-pointer select-none'
+                    onClick={(e) => { e.stopPropagation(); e.preventDefault(); prev() }}
+                    onMouseDown={(e) => { e.stopPropagation(); e.preventDefault() }}
+                  >
+                    <ChevronLeft className='w-16 h-24 md:w-24 md:h-32 stroke-white stroke-1 scale-y-150' />
+                  </button>
+
+                  {/* 右箭头（固定页面右侧） */}
+                  <button
+                    type='button'
+                    aria-label='Next'
+                    className='absolute right-0 top-1/2 -translate-y-1/2 px-2 md:px-4
+                               opacity-70 hover:opacity-100 focus:opacity-100 transition-opacity
+                               cursor-pointer select-none'
+                    onClick={(e) => { e.stopPropagation(); e.preventDefault(); next() }}
+                    onMouseDown={(e) => { e.stopPropagation(); e.preventDefault() }}
+                  >
+                    <ChevronRight className='w-16 h-24 md:w-24 md:h-32 stroke-white stroke-1 scale-y-150' />
+                  </button>
                 </div>
-
-                {/* 左箭头 */}
-                <button
-                  onClick={prev}
-                  className='fixed left-0 top-1/2 -translate-y-1/2 px-2 md:px-4
-                             opacity-60 hover:opacity-100 focus:opacity-100 transition-opacity
-                             cursor-pointer select-none'
-                  aria-label='Previous'
-                >
-                  <ChevronLeft className='w-16 h-24 md:w-24 md:h-32 stroke-white stroke-1 scale-y-150' />
-                </button>
-
-                {/* 右箭头 */}
-                <button
-                  onClick={next}
-                  className='fixed right-0 top-1/2 -translate-y-1/2 px-2 md:px-4
-                             opacity-60 hover:opacity-100 focus:opacity-100 transition-opacity
-                             cursor-pointer select-none'
-                  aria-label='Next'
-                >
-                  <ChevronRight className='w-16 h-24 md:w-24 md:h-32 stroke-white stroke-1 scale-y-150' />
-                </button>
               </Dialog.Panel>
             </Transition.Child>
           </div>
