@@ -152,12 +152,12 @@ export default function Modal(props) {
 
                   <div
                     onClick={prev}
-                    className='z-10 absolute left-0 top-1/2 -mt-12 group-hover:opacity-50 opacity-0 duration-200 transition-opacity'>
+                     className='z-10 fixed left-0 top-1/2 -translate-y-1/2 group-hover:opacity-50 opacity-0 duration-200 transition-opacity px-4'>
                     <ChevronLeft className='cursor-pointer w-24 h-32 hover:opacity-100 stroke-white stroke-1 scale-y-150' />
                   </div>
                   <div
                     onClick={next}
-                    className='z-10 absolute right-0 top-1/2 -mt-12 group-hover:opacity-50 opacity-0 duration-200 transition-opacity'>
+                     className='z-10 fixed right-0 top-1/2 -translate-y-1/2 group-hover:opacity-50 opacity-0 duration-200 transition-opacity px-4'>
                     <ChevronRight className='cursor-pointer w-24 h-32 hover:opacity-100 stroke-white stroke-1 scale-y-150' />
                   </div>
                   {/* </div> */}
