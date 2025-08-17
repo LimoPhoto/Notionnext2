@@ -55,10 +55,12 @@ export default function Modal(props) {
     }
   }
 
-  // 键盘支持：←/→ 切换，Esc 关闭
+  // 键盘支持：←/→ 切换，Esc 关闭（JS 版本：去掉 TS 类型）
   useEffect(() => {
     if (!showModal) return
-    const onKeyDown = (e: KeyboardEvent) => {
+    if (typeof window === 'undefined') return
+
+    const onKeyDown = (e) => {
       if (e.key === 'ArrowLeft') {
         e.preventDefault()
         prev()
@@ -66,11 +68,11 @@ export default function Modal(props) {
         e.preventDefault()
         next()
       } else if (e.key === 'Escape') {
-        // headlessui 会处理 Esc -> onClose，这里兜底
         e.preventDefault()
         handleClose()
       }
     }
+
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [showModal, modalContent, posts])
