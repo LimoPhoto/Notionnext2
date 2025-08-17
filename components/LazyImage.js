@@ -53,8 +53,7 @@ export default function LazyImage({
         imageRef.current.src = defaultPlaceholderSrc
       }
     }
-    // 通知父组件加载已完成
-    onLoad?.()
+
   }
 
   useEffect(() => {
