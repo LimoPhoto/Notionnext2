@@ -113,6 +113,7 @@ export default function Modal(props) {
 
                   {/* 左上角关闭按钮 */}
                   <button
+                    ref={cancelButtonRef}
                     type='button'
                     aria-label='Close'
                     className='absolute left-4 top-4 z-20 p-2 rounded-full
