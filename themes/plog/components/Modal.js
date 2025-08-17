@@ -142,7 +142,7 @@ export default function Modal(props) {
           role='button'
           tabIndex={0}
           aria-label='Previous'
-          className='z-40 fixed left-0 top-1/2 -translate-y-1/2 px-2 md:px-4
+          className='z-50 fixed left-0 top-1/2 -translate-y-1/2 px-2 md:px-4
                      opacity-60 hover:opacity-100 focus:opacity-100 transition-opacity
                      cursor-pointer select-none'
           onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && prev()}
@@ -158,7 +158,7 @@ export default function Modal(props) {
           role='button'
           tabIndex={0}
           aria-label='Next'
-          className='z-40 fixed right-0 top-1/2 -translate-y-1/2 px-2 md:px-4
+          className='z-50 fixed right-0 top-1/2 -translate-y-1/2 px-2 md:px-4
                      opacity-60 hover:opacity-100 focus:opacity-100 transition-opacity
                      cursor-pointer select-none'
           onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && next()}
