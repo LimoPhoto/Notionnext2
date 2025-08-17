@@ -107,7 +107,6 @@ export default function Modal(props) {
 
                 <Link href={modalContent?.href}>
                   <LazyImage
-                    key={modalContent?.slug}
                     onLoad={handleImageLoad}
                     placeholderSrc={thumbnail}
                     src={bigImage}
