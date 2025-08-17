@@ -112,23 +112,25 @@ export default function Modal(props) {
               leaveFrom='opacity-100 translate-y-0 scale-100  max-w-screen'
               leaveTo='opacity-0 translate-y-4 scale-50 w-0'
             >
-              <Dialog.Panel className='group relative transform overflow-hidden rounded-none text-left shadow-xl transition-all '>
+               <Dialog.Panel className='group relative transform rounded-none text-left shadow-xl transition-all'>
                 {/* 右下角加载动画 */}
                 <div className={`absolute right-0 bottom-0 m-4 ${loading ? '' : 'hidden'}`}>
                   <ArrowPath className='w-10 h-10 animate-spin text-gray-200' />
                 </div>
 
                 {/* 图片区域 */}
-                <Link href={modalContent?.href ?? '#'} aria-label='Open detail page'>
-                  <LazyImage
-                    onLoad={handleImageLoad}
-                    placeholderSrc={thumbnail}
-                    src={bigImage}
-                    ref={imgRef}
-                    className='w-full select-none max-w-7xl max-h-[90vh] shadow-xl animate__animated animate__fadeIn'
-                  />
-                </Link>
-                      
+                <div className='overflow-hidden'>
+                  <Link href={modalContent?.href ?? '#'} aria-label='Open detail page'>
+                    <LazyImage
+                      onLoad={handleImageLoad}
+                      placeholderSrc={thumbnail}
+                      src={bigImage}
+                      ref={imgRef}
+                      className='w-full select-none max-w-7xl max-h-[90vh] shadow-xl animate__animated animate__fadeIn'
+                    />
+                  </Link>
+                </div>
+
                 {/* 左箭头 */}
                 <button
                   onClick={prev}
@@ -157,4 +159,3 @@ export default function Modal(props) {
       </Dialog>
     </Transition.Root>
   )
-}
