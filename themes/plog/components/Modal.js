@@ -111,6 +111,25 @@ export default function Modal(props) {
                     <ArrowPath className='w-10 h-10 animate-spin text-gray-200' />
                   </div>
 
+                  {/* 左上角关闭按钮 */}
+                  <button
+                    type='button'
+                    aria-label='Close'
+                    className='absolute left-4 top-4 z-20 p-2 rounded-full
+                               bg-black/40 text-white
+                                hover:bg-black/60 focus:outline-none
+                               focus:ring-2 focus:ring-white/60 transition'
+                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleClose() }}
+                    onMouseDown={(e) => { e.preventDefault(); e.stopPropagation() }}
+                    >
+                    {/* 内联一个“X”图标，避免新增依赖/导入 */}
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'
+                                 fill='none' stroke='currentColor' strokeWidth='2'
+                               className='w-6 h-6'>
+                    <path strokeLinecap='round' strokeLinejoin='round' d='M6 6l12 12M18 6L6 18' />
+                    </svg>
+                    </button>
+
                   {/* 左箭头（固定页面左侧） */}
                   <button
                     type='button'
