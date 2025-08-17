@@ -137,8 +137,8 @@ export default function Modal(props) {
         {/* 左箭头 */}
         <div
           onClick={prev}
-          onMouseDown={e => e.stopPropagation()}
-          onClickCapture={e => e.stopPropagation()}
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); prev(); }}
+          onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
           role='button'
           tabIndex={0}
           aria-label='Previous'
@@ -153,8 +153,8 @@ export default function Modal(props) {
         {/* 右箭头 */}
         <div
           onClick={next}
-          onMouseDown={e => e.stopPropagation()}
-          onClickCapture={e => e.stopPropagation()}
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); next(); }}
+          onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
           role='button'
           tabIndex={0}
           aria-label='Next'
