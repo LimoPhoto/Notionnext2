@@ -6,9 +6,6 @@ import Link from 'next/link'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { usePlogGlobal } from '..'
 
-/**
- * 弹出框
- */
 export default function Modal(props) {
   const { showModal, setShowModal, modalContent, setModalContent } = usePlogGlobal()
   const { siteInfo, posts } = props
@@ -37,30 +34,19 @@ export default function Modal(props) {
     if (!posts?.length || !modalContent) return
     setLoading(true)
     const index = posts.findIndex(post => post.slug === modalContent.slug)
-    if (index <= 0) {
-      setModalContent(posts[posts.length - 1])
-    } else {
-      setModalContent(posts[index - 1])
-    }
+    setModalContent(index <= 0 ? posts[posts.length - 1] : posts[index - 1])
   }
 
   const next = () => {
     if (!posts?.length || !modalContent) return
     setLoading(true)
     const index = posts.findIndex(post => post.slug === modalContent.slug)
-    if (index === posts.length - 1) {
-      setModalContent(posts[0])
-    } else {
-      setModalContent(posts[index + 1])
-    }
+    setModalContent(index === posts.length - 1 ? posts[0] : posts[index + 1])
   }
 
-  // 键盘支持：←/→ 切换，Esc 关闭（JS 版本：去掉 TS 类型）
   useEffect(() => {
-    if (!showModal) return
-    if (typeof window === 'undefined') return
-
-    const onKeyDown = (e) => {
+    if (!showModal || typeof window === 'undefined') return
+    const onKeyDown = e => {
       if (e.key === 'ArrowLeft') {
         e.preventDefault()
         prev()
@@ -72,7 +58,6 @@ export default function Modal(props) {
         handleClose()
       }
     }
-
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [showModal, modalContent, posts])
@@ -107,19 +92,19 @@ export default function Modal(props) {
               as={Fragment}
               enter='ease-out duration-300'
               enterFrom='opacity-0 translate-y-4 scale-50 w-0'
-              enterTo={'opacity-100 translate-y-0 max-w-screen'}
+              enterTo='opacity-100 translate-y-0 max-w-screen'
               leave='ease-in duration-200'
               leaveFrom='opacity-100 translate-y-0 scale-100  max-w-screen'
               leaveTo='opacity-0 translate-y-4 scale-50 w-0'
             >
-               <Dialog.Panel className='group relative transform rounded-none text-left shadow-xl transition-all'>
+              <Dialog.Panel className='group relative transform rounded-none text-left shadow-xl transition-all'>
                 {/* 右下角加载动画 */}
                 <div className={`absolute right-0 bottom-0 m-4 ${loading ? '' : 'hidden'}`}>
                   <ArrowPath className='w-10 h-10 animate-spin text-gray-200' />
                 </div>
 
-                {/* 图片区域 */}
-  
+                {/* 图片区域（单独包裹以便溢出裁剪） */}
+                <div className='overflow-hidden'>
                   <Link href={modalContent?.href ?? '#'} aria-label='Open detail page'>
                     <LazyImage
                       onLoad={handleImageLoad}
@@ -130,7 +115,7 @@ export default function Modal(props) {
                     />
                   </Link>
                 </div>
-              </Dialog.Panel>
+
                 {/* 左箭头 */}
                 <button
                   onClick={prev}
@@ -152,6 +137,7 @@ export default function Modal(props) {
                 >
                   <ChevronRight className='w-16 h-24 md:w-24 md:h-32 stroke-white stroke-1 scale-y-150' />
                 </button>
+              </Dialog.Panel>
             </Transition.Child>
           </div>
         </div>
