@@ -128,44 +128,32 @@ export default function Modal(props) {
                     className='w-full select-none max-w-7xl max-h-[90vh] shadow-xl animate__animated animate__fadeIn'
                   />
                 </Link>
+                      
+                {/* 左箭头 */}
+                <button
+                  onClick={prev}
+                  className='fixed left-0 top-1/2 -translate-y-1/2 px-2 md:px-4
+                             opacity-60 hover:opacity-100 focus:opacity-100 transition-opacity
+                             cursor-pointer select-none'
+                  aria-label='Previous'
+                >
+                  <ChevronLeft className='w-16 h-24 md:w-24 md:h-32 stroke-white stroke-1 scale-y-150' />
+                </button>
+
+                {/* 右箭头 */}
+                <button
+                  onClick={next}
+                  className='fixed right-0 top-1/2 -translate-y-1/2 px-2 md:px-4
+                             opacity-60 hover:opacity-100 focus:opacity-100 transition-opacity
+                             cursor-pointer select-none'
+                  aria-label='Next'
+                >
+                  <ChevronRight className='w-16 h-24 md:w-24 md:h-32 stroke-white stroke-1 scale-y-150' />
+                </button>
               </Dialog.Panel>
             </Transition.Child>
           </div>
         </div>
-
-        {/* ===== 把左右箭头移到 Panel 外，固定在页面左右边缘 ===== */}
-        {/* 左箭头 */}
-        <div
-          onClick={prev}
-          onMouseDown={e => e.stopPropagation()}
-          onClickCapture={e => e.stopPropagation()}
-          role='button'
-          tabIndex={0}
-          aria-label='Previous'
-          className='z-50 fixed left-0 top-1/2 -translate-y-1/2 px-2 md:px-4
-                     opacity-60 hover:opacity-100 focus:opacity-100 transition-opacity
-                     cursor-pointer select-none'
-          onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && prev()}
-        >
-          <ChevronLeft className='w-16 h-24 md:w-24 md:h-32 stroke-white stroke-1 scale-y-150' />
-        </div>
-
-        {/* 右箭头 */}
-        <div
-          onClick={next}
-          onMouseDown={e => e.stopPropagation()}
-          onClickCapture={e => e.stopPropagation()}
-          role='button'
-          tabIndex={0}
-          aria-label='Next'
-          className='z-50 fixed right-0 top-1/2 -translate-y-1/2 px-2 md:px-4
-                     opacity-60 hover:opacity-100 focus:opacity-100 transition-opacity
-                     cursor-pointer select-none'
-          onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && next()}
-        >
-          <ChevronRight className='w-16 h-24 md:w-24 md:h-32 stroke-white stroke-1 scale-y-150' />
-        </div>
-        {/* ====================================================== */}
       </Dialog>
     </Transition.Root>
   )
