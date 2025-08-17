@@ -136,12 +136,9 @@ export default function Modal(props) {
         {/* ===== 把左右箭头移到 Panel 外，固定在页面左右边缘 ===== */}
         {/* 左箭头 */}
         <div
-           // ===== 新增：捕获阶段拦截，防止 outside click 先触发 =====
-          onPointerDownCapture={(e) => { e.preventDefault(); e.stopPropagation(); }}
-          onClickCapture={(e) => { e.stopPropagation(); }}
-          // ===== 点击只执行切换，不冒泡到下层 Link / Overlay =====
-          onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
-          onClick={(e) => { e.preventDefault(); e.stopPropagation(); prev(); }}
+          onClick={prev}
+          onMouseDown={e => e.stopPropagation()}
+          onClickCapture={e => e.stopPropagation()}
           role='button'
           tabIndex={0}
           aria-label='Previous'
@@ -155,10 +152,9 @@ export default function Modal(props) {
 
         {/* 右箭头 */}
         <div
-          onPointerDownCapture={(e) => { e.preventDefault(); e.stopPropagation(); }}
-          onClickCapture={(e) => { e.stopPropagation(); }}
-          onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
-          onClick={(e) => { e.preventDefault(); e.stopPropagation(); next(); }}
+          onClick={next}
+          onMouseDown={e => e.stopPropagation()}
+          onClickCapture={e => e.stopPropagation()}
           role='button'
           tabIndex={0}
           aria-label='Next'
