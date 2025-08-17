@@ -159,3 +159,4 @@ export default function Modal(props) {
       </Dialog>
     </Transition.Root>
   )
+}
