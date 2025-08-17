@@ -136,7 +136,6 @@ export default function Modal(props) {
         {/* ===== 把左右箭头移到 Panel 外，固定在页面左右边缘 ===== */}
         {/* 左箭头 */}
         <div
-          onClick={prev}
           onClick={(e) => { e.preventDefault(); e.stopPropagation(); prev(); }}
           onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
           role='button'
@@ -152,7 +151,6 @@ export default function Modal(props) {
 
         {/* 右箭头 */}
         <div
-          onClick={next}
           onClick={(e) => { e.preventDefault(); e.stopPropagation(); next(); }}
           onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
           role='button'
