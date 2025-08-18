@@ -47,13 +47,13 @@ export const ArticleInfo = (props) => {
                 ))}
               </div>
             )}
-              
+              {/* 
             <span className="hidden busuanzi_container_page_pv mr-2">
                     <i className='mr-1 fas fa-eye' />
                     &nbsp;
                     <span className="mr-2 busuanzi_value_page_pv" />
                 </span>
-                
+                 */}
              </nav>
             </>}
 
