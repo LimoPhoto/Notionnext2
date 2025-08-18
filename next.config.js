@@ -100,6 +100,8 @@ const nextConfig = {
     // 允许next/image加载的图片 域名
     domains: [
       'gravatar.com',
+      'secure.notion-static.com',
+      'prod-files-secure.s3.us-west-2.amazonaws.com',
       'www.notion.so',
       'avatars.githubusercontent.com',
       'images.unsplash.com',
