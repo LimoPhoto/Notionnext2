@@ -26,7 +26,7 @@ export const ArticleInfo = (props) => {
                   alt={siteConfig('AUTHOR')}
                   width={24}
                   height={24}
-                  src={`https://gravatar.com/avatar/${emailHash}`}
+                  src={siteConfig('AVATAR')}
                   className="rounded-full"
                 />
                 
