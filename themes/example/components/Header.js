@@ -9,7 +9,7 @@ import { MenuList } from './MenuList'
  */
 export const Header = props => {
   return (
-    <header className='w-full px-6 bg-white dark:bg-black sticky top-0 z-40 shadow-sm'>
+    <header className='w-full px-6 bg-white  dark:bg-black relative z-20'>
       <div className='mx-auto max-w-4xl md:flex justify-between items-center'>
         <Link
           href='/'
